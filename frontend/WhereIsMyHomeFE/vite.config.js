@@ -16,7 +16,7 @@ export default defineConfig({
     port: 5173, // Vue 개발 서버 포트
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // Spring Boot 서버 주소
+        target: 'http://3.149.246.123:8080', // Spring Boot 서버 주소
         changeOrigin: true,
         secure: false,
       },
