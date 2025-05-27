@@ -9,7 +9,7 @@
     <div class="overlay">
       <h1 class="title">복잡한 부동산 정보, 이제 지도로 한눈에.</h1>
       <p class="subtitle">당신 주변의 아파트 거래 정보, 직관적으로 확인하세요.</p>
-      <button @click="goToMap" class="start-btn">Get Started</button>
+      <button @click="goToMap" class="start-btn">시작하기</button>
     </div>
   </div>
 </template>

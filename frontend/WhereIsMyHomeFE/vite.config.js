@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueDevTools()],
+  plugins: [vue()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -20,6 +20,13 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/kakao': {
+        target: 'https://dapi.kakao.com',  // 카카오 API 서버 URL
+        changeOrigin: true,                 // CORS 헤더 처리
+        rewrite: (path) => path.replace(/^\/kakao/, ''),  // /kakao를 카카오 API 서버 URL로 변경
+        secure: false,                      // https를 사용하지 않으면 false로 설정
+      },
     },
   },
+  
 })
