@@ -15,12 +15,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    //private final BCryptPasswordEncoder passwordEncoder; // BCryptPasswordEncoder 주입
+    private final BCryptPasswordEncoder passwordEncoder; // BCryptPasswordEncoder 주입
     
     @Override
     public User findByIdAndPassword(User user) {
-        User dbUser = userRepository.findByEmail(user.getEmail());  // 수정된 메서드 사용
-        if (dbUser != null && user.getPassword().equals(dbUser.getPassword())) {
+        User dbUser = userRepository.findByEmail(user.getEmail());
+        if (dbUser != null && passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
             return dbUser;
         }
         return null;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User insert(User user) {
         // 비밀번호 암호화 후 저장
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));  // BCrypt로 비밀번호 암호화
+        user.setPassword(passwordEncoder.encode(user.getPassword()));  // BCrypt로 비밀번호 암호화
         return userRepository.save(user);
     }
     

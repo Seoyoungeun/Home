@@ -64,6 +64,8 @@ CREATE TABLE favorites (
     ON DELETE CASCADE
 );
 
+ALTER TABLE posts ADD view_count INT DEFAULT 0;
+
 -- 인덱스 추가
 CREATE INDEX idx_fav_user ON favorites(uid);
 CREATE INDEX idx_fav_apt ON favorites(apt_seq);
