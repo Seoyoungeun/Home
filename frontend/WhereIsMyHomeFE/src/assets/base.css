@@ -1,0 +1,25 @@
+/* 리셋 & 컬러 변수만 남깁니다 */
+:root {
+  --color-bg: #101014;
+  --color-bg-alt: #18181C;
+  --color-text: #FDFDFD;
+  --color-border: #37373f;
+  --color-accent: #ef4444; /* 하트 버튼 */
+  --color-primary: #FDFDFD; /* active nav underline */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: Inter, sans-serif;
+  line-height: 1.4;
+}

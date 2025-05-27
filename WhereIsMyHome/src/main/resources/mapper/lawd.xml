@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.model.dao.LawdDao">
+    <delete id="deleteAll">
+        TRUNCATE TABLE region_codes;
+    </delete>
+    
+    <insert id="insertAll">
+        INSERT INTO region_codes (lawd_cd5)
+        VALUES
+        <foreach collection="lawdList" item="code" separator=",">
+            (#{code})
+        </foreach>
+    </insert>
+    
+</mapper>

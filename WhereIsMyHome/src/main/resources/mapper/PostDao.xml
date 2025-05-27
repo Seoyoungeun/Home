@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.model.dao.PostDao">
+
+  <!-- 공통 resultMap -->
+  <resultMap id="postMap" type="com.ssafy.model.dto.Post">
+    <id property="pid" column="pid"/>
+    <result property="user_id" column="user_id"/>
+    <result property="user_name" column="user_name"/>
+    <result property="title" column="title"/>
+    <result property="text" column="text"/>
+    <result property="category" column="category"/>
+    <result property="created" column="created"/>
+    <result property="updated" column="updated"/>
+    <result property="view_count" column="view_count"/>
+  </resultMap>
+
+  <!-- 게시글 등록 -->
+  <insert id="insert" parameterType="com.ssafy.model.dto.Post">
+    INSERT INTO posts (user_id, title, text, category, created, updated)
+    VALUES (#{user_id}, #{title}, #{text}, #{category}, NOW(), NOW())
+  </insert>
+
+  <!-- 카테고리별 게시글 목록 조회 -->
+  <select id="selectByCategory" parameterType="string" resultMap="postMap">
+    SELECT 
+      p.*, 
+      u.name AS user_name
+    FROM posts p
+    JOIN users u ON p.user_id = u.uid
+    WHERE p.category = #{category}
+    ORDER BY p.created DESC
+  </select>
+
+	<!-- 게시글 상세 조회 -->
+	<select id="select" parameterType="int" resultMap="postMap">
+	  SELECT 
+	    p.*, 
+	    u.name AS user_name
+	  FROM posts p
+	  JOIN users u ON p.user_id = u.uid
+	  WHERE p.pid = #{pid}
+	</select>
+
+  <!-- 특정 유저의 게시글 목록 -->
+  <select id="findByUserId" parameterType="int" resultMap="postMap">
+    SELECT 
+      p.*, 
+      u.name AS user_name
+    FROM posts p
+    JOIN users u ON p.user_id = u.uid
+    WHERE p.user_id = #{uid}
+    ORDER BY p.created DESC
+  </select>
+
+  <!-- 게시글 수정 -->
+  <update id="update" parameterType="com.ssafy.model.dto.Post">
+    UPDATE posts
+    SET title = #{title},
+        text = #{text},
+        category = #{category},
+        updated = NOW()
+    WHERE pid = #{pid}
+  </update>
+
+  <!-- 게시글 삭제 -->
+  <delete id="delete" parameterType="int">
+    DELETE FROM posts WHERE pid = #{pid}
+  </delete>
+
+  <!-- 조회수 증가 -->
+  <update id="incrementViewCount" parameterType="int">
+    UPDATE posts
+    SET view_count = view_count + 1
+    WHERE pid = #{pid}
+  </update>
+
+	<select id="selectByCategoryWithPaging" parameterType="map" resultMap="postMap">
+	  SELECT 
+	    p.*, 
+	    u.name AS user_name,
+	    (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.pid) AS comment_count
+	  FROM posts p
+	  JOIN users u ON p.user_id = u.uid
+	  WHERE p.category = #{category}
+	  ORDER BY p.created DESC
+	  LIMIT #{size} OFFSET #{offset}
+	</select>
+	
+	<select id="countByCategory" resultType="int">
+	  SELECT COUNT(*) 
+	  FROM posts 
+	  WHERE category = #{category}
+	</select>
+	
+	<!-- 검색 -->	
+	<select id="search" resultMap="postMap">
+	  SELECT p.*, u.name AS user_name
+	  FROM posts p
+	  JOIN users u ON p.user_id = u.uid
+	  <where>
+	    <choose>
+	      <when test="type == 'title'">
+	        p.title LIKE CONCAT('%', #{keyword}, '%')
+	      </when>
+	      <when test="type == 'user'">
+	        u.name LIKE CONCAT('%', #{keyword}, '%')
+	      </when>
+	    </choose>
+	  </where>
+	  ORDER BY p.created DESC
+	  LIMIT #{limit} OFFSET #{offset}
+	</select>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.model.dao.PostDao">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pid" >
+    	insert into posts (uid, title, text, category, created, updated) 
+    	values(#{uid}, #{title}, #{text}, #{category}, #{created}, #{updated})
+    </insert>
+    
+    <update id="update">
+    	UPDATE posts
+		SET
+		    title = #{title},
+		    text = #{text},
+		    category = #{category},
+		    updated = #{updated}
+		WHERE pid = #{pid}
+    </update>
+    
+    <delete id="delete">
+    	DELETE FROM posts WHERE pid = #{pid}
+    </delete>
+    
+    <select id="select" resultType="com.ssafy.model.dto.Post">
+    	select * 
+    	from posts
+    	where pid = #{pid}
+    </select>
+    
+    <select id="selectAll" resultType="com.ssafy.model.dto.Post">
+    	select * from posts
+    </select>
+    
+    <select id="searchByKeyword" resultType="com.ssafy.model.dto.Post">
+	  	SELECT * FROM posts
+	  	WHERE title LIKE CONCAT('%', TRIM(#{keyword}), '%')
+	    OR text LIKE CONCAT('%', TRIM(#{keyword}), '%')
+	</select>
+    
+</mapper>

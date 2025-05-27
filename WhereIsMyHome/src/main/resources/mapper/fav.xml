@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.model.dao.FavDao">
+
+	<select id="isFavorite" resultType="boolean">
+	    SELECT COUNT(*) 
+	    FROM favorites 
+	    WHERE uid = #{uid} AND apt_seq = #{apt_seq}
+	</select>
+	
+	<select id="favList" resultType="map">
+	    SELECT h.apt_nm, f.apt_seq
+	    FROM favorites f
+	    JOIN houseinfos h ON f.apt_seq = h.apt_seq
+	    WHERE f.uid = #{uid}
+	</select>
+     
+    <insert id="addFavorite" useGeneratedKeys="true" keyProperty="id">
+	  INSERT INTO favorites (uid, apt_seq)
+	  VALUES (#{uid}, #{apt_seq})
+	</insert>
+	
+	<delete id="delFavorite">
+	  DELETE FROM favorites
+ 	  WHERE uid = #{uid} AND apt_seq = #{apt_seq}
+	</delete>
+
+
+    
+</mapper>
