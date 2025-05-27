@@ -92,8 +92,8 @@ function formatDate(dateStr) {
 async function fetchPosts() {
   try {
     const url = isSearching.value
-      ? `http://localhost:8080/api/v1/posts/search?type=${searchType.value}&keyword=${searchKeyword.value}&page=${currentPage.value}&size=10`
-      : `http://localhost:8080/api/v1/posts/category/free?page=${currentPage.value}&size=10`
+      ? `http://3.149.246.123:8080/api/v1/posts/search?type=${searchType.value}&keyword=${searchKeyword.value}&page=${currentPage.value}&size=10`
+      : `http://3.149.246.123:8080/api/v1/posts/category/free?page=${currentPage.value}&size=10`
 
     const response = await axios.get(url)
     posts.value = response.data.data

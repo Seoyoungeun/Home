@@ -88,7 +88,7 @@ function formatDate(dateStr) {
 
 async function fetchPosts() {
   try {
-    const response = await axios.get('http://localhost:8080/api/v1/posts/category/qna')
+    const response = await axios.get('http://3.149.246.123:8080/api/v1/posts/category/qna')
     posts.value = response.data.data
     console.log('[게시글 목록]', posts.value)
   } catch (error) {
