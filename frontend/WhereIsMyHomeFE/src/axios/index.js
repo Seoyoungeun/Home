@@ -1,6 +1,6 @@
 import axios from 'axios'
 const aptAi = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://3.149.246.123:8080',
   timeout: 10000,
   withCredentials: true,
 })
